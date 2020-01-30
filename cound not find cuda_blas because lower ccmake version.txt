@@ -13,7 +13,11 @@ ubuntu 官网，里面关联的版本的确就是3.10.0；
 于是选择从cmake 的源码编译。
 
 4，cmake 源码编译生成ccmake:
-cmake 下载的源码中，可以直接运行./bootstrap,make,make install,进行安装cmake,但是这种方式是默认不安装ccmake；如果需要安装ccmake,需要打开ccmake的编译选项，另外需要先安装依赖库ncurses(http://ftp.gnu.org/pub/gnu/ncurses/ncurses-6.1.tar.gz)。最后用sudo make install 或在在.barshrc 中的PATH 添加xxx/cmake/bin的路径（export PATH="/home/franky/Downloads/cmake-3.15.6/bin":$PATH
+cmake 下载的源码中，可以直接运行./bootstrap,make,make install,进行安装cmake,但是这种
+方式是默认不安装ccmake；如果需要安装ccmake,需要打开ccmake的编译选项，另外需要先安装
+依赖库ncurses(http://ftp.gnu.org/pub/gnu/ncurses/ncurses-6.1.tar.gz)。最后用
+sudo make install 或在在.barshrc 中的PATH 添加xxx/cmake/bin的路径
+（export PATH="/home/franky/Downloads/cmake-3.15.6/bin":$PATH
 ）。
 
 5，确认ccmake 版本是否正确（ccmake --version,显示是3.15.0）。
