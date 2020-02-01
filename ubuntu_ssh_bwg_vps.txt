@@ -1,0 +1,32 @@
+1,远程登陆带端口的服务器：#ssh -X -p 28941 root@ip
+
+2,安装shadowsocks:
+a) #apt-get install pip
+b) #pip install shadowsocks
+c) 配置服务器参数： #nano /etc/shadowsocks.json
+    {
+        "server":"0.0.0.0"，# ip
+        "server_port":8388，# 端口
+        "local_address": "127.0.0.1"，
+        "local_port":1080，
+        "password":"mypassword"，#密码
+        "timeout":300，
+        "method":"aes-256-cfb"，
+        "fast_open": false，
+        "workers": 1
+    }
+d)启动服务：#ssserver -c /etc/shadowsocks.json
+
+3,安装supervisor 实现后台运行shadowsocks
+a)安装#pip install supervisor
+b)创建配置文件#echo_supervisord_conf > /etc/supervisord.conf
+c)在配置文件末端配置#nano /etc/supervisord.conf
+    [program:ssserver]
+    command=ssserver -c /etc/shadowsocks.json
+    autostart=true
+    autorestart=true
+    startsecs=3
+d)测试配置是否成功#supervisord -c /etc/supervisord.conf
+e)添加supervisord开机启动# nano /etc/rc.local
+    supervisord -c /etc/supervisord.conf
+f)为rc.local添加执行权限#chmod +x /etc/rc.local
