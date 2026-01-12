@@ -32,3 +32,27 @@ some knowledges that are importent or  easy to forget, including not only AI.
 1. 动作能力注入：冻结VLM大部分参数，训练视觉编码适配器和action—head，让模型理解动作特征
 2. 监督微调：最小化推理文本和预测轨迹的联合交叉熵损失。通过这种方式，模型学会了将视觉观察（如“前方有行人”）与文字逻辑（如“我需要减速”）以及物理动作（如“刹车轨迹”）进行强关联。
 3. 强化学习后训练：采用 GRPO（Group Relative Policy Optimization，一种不需要独立评论员模型的强化学习算法，也用于 DeepSeek-R1）
+
+
+# [大模型裁剪系列]
+1. DATA-FREE PRUNING OF SELF-ATTENTION LAYERS IN LLMS
+   * 论文发现随着seq的增加，attention的耗时占比要大于FFN模块，于是提出了指裁剪attention的data-free方案
+   * 方法是提出gate-norm，计算q-k之间的weight的耦合度，不需要校准集和微调，gate-norm=WqWk^T
+   * 效果，通过论文的方法，可以实现1.3X的推理提速。
+2. ShortGPT: Layers in Large Language Models are More Redundant Than You Expect-百川智能
+   * 论文发现相邻层之间的隐藏状态具有极高的相似性，意味着这些层对输入信息的转换非常小，小到可以移除
+   * 方法是计算每一层的输入和输出的余弦相似度，如果相似度高则重要性低，然后排序之后，移除N层。
+3. What Matters in Transformers? Not All Attention is Needed
+   * 论文发现注意力机制是Transformer的核心，但是大量的注意力层实际上是多余的，可以在不显著影响模型性能的情况下直接删除
+   * 相似度的计算则是采用余弦相似度，相似度越高则越不重要，可以删除。
+   * 由于残差结构的存在，论文提出了三种删除方法，整块删除、MLP删除和Attention删除，前面两个删除会导致性能下降，但是Attention的删除则可以保留极高的准确度。
+   * 在llama-2-13B上测试，删除8层有1.13X提速且基本不掉点，删除20层有1.40X提速且掉点在1%以内。
+4. SparseGPT: Massive Language Models Can be Accurately Pruned in One-Shot
+   * 论文把全局剪枝问题分解为对每一层权重矩阵进行局部最优化的大规模稀疏回归问题
+   * 步骤1：采用逐层剪枝策略，对于每一个线性层，目标是找到一个新的稀疏重矩阵，使得该层输出误差最小化，min(||Wx -W'x||2
+   * 步骤2：基于Hessian矩阵精准修正，为了在删除权重的时候不丢失精度，通过H=XX^T的方式动态调整该行的剩余未被裁剪的权重
+   * 步骤3：为了提高计算效率，算法以权重块为单位进行处理，而不是逐个权重处理
+5. Wanda: A SIMPLE AND EFFECTIVE PRUNING APPROACH FOR LARGE LANGUAGE MODELS-博世
+   * 针对剪枝需要Hessian矩阵调整权重的复杂，提出一个极简、高效且不需要更新权重的剪枝方案。
+   * 新的权重重要性度量，论文提出，针对大模型的情况，如果一个权重的输入非常大，就算权重本身很小，它对输出的影响也很大，所以采用s=|W|*||X||2的方式进行度量。计算出s之后，进行排序和裁剪就行。当然也可以针对nv的2：4稀疏化进行剪枝。
+   
