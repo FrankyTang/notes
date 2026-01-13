@@ -55,4 +55,18 @@ some knowledges that are importent or  easy to forget, including not only AI.
 5. Wanda: A SIMPLE AND EFFECTIVE PRUNING APPROACH FOR LARGE LANGUAGE MODELS-博世
    * 针对剪枝需要Hessian矩阵调整权重的复杂，提出一个极简、高效且不需要更新权重的剪枝方案。
    * 新的权重重要性度量，论文提出，针对大模型的情况，如果一个权重的输入非常大，就算权重本身很小，它对输出的影响也很大，所以采用s=|W|*||X||2的方式进行度量。计算出s之后，进行排序和裁剪就行。当然也可以针对nv的2：4稀疏化进行剪枝。
+
+# [字节的GR系列]
+1. GR-3技术报告
+   * VLA的架构采用qwen2.5-vl-3b的VLM模块，加速1B参数的动作扩散模型(DiT),这里的扩散模块采用流匹配来预测动作块
+   *  DiT 模块的注意力层和前馈网络（FFN）中引入了 RMSNorm，这显著提高了训练稳定性和指令遵循能力。
+   *  训练分为3个阶段： 1）视觉-语音联合训练，2）机器人轨迹模仿学习，3）人类轨迹微调
+   *  KV Cache注入：架构中有三个箭头从VLM->DiT，表示VLM传递给DiT的是KV cache，论文从效率出发，指选取了VLM的后半部分层的KV cache，这里的KV cache象征着“语义+空间+状态”的高维表征从VLM传递到DiT。
+   *  任务状态的有效性：动作模块引入辅助任务的任务状态（包括进行中、已完成和无效指令）能有效帮助这个 4B 参数的 VLA 模型更好地将视觉场景与语言指令对齐，确保机器人真的在按照指令行事，而不是盲目地重复动作。
+2. GR-RL: Going Dexterous and Precise for Long-Horizon Robotic Manipulation
+   * 架构和动作模块和GR-3保持一致
+   * 论文引入了在线强化学习，在穿鞋带任务中，GR-RL 从基础模型的 45.7% 成功率大幅提升至 83.3%。
+   * 补充图片，图片有完整的结构信息，包括kv-cache的传递，强化学习等
+   * 这里的强化学习没有明白，后续补充知识点
+   
    
