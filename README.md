@@ -56,6 +56,9 @@ some knowledges that are importent or  easy to forget, including not only AI.
    * 针对剪枝需要Hessian矩阵调整权重的复杂，提出一个极简、高效且不需要更新权重的剪枝方案。
    * 新的权重重要性度量，论文提出，针对大模型的情况，如果一个权重的输入非常大，就算权重本身很小，它对输出的影响也很大，所以采用s=|W|*||X||2的方式进行度量。计算出s之后，进行排序和裁剪就行。当然也可以针对nv的2：4稀疏化进行剪枝。
 
+# [VLA经典]
+1. OpenVLA
+
 # [字节的GR系列]
 1. GR-3技术报告
    * VLA的架构采用qwen2.5-vl-3b的VLM模块，加速1B参数的动作扩散模型(DiT),这里的扩散模块采用流匹配来预测动作块
@@ -68,5 +71,21 @@ some knowledges that are importent or  easy to forget, including not only AI.
    * 论文引入了在线强化学习，在穿鞋带任务中，GR-RL 从基础模型的 45.7% 成功率大幅提升至 83.3%。
    * 补充图片，图片有完整的结构信息，包括kv-cache的传递，强化学习等
    * 这里的强化学习没有明白，后续补充知识点
-   
+
+# [google的RT系列]
+1. RT-1:Robotics Transformer for Real-World Control at Scale
+   * 架构上：1）视觉和语言融合模块，时序6帧图像和任务内容输入到FiLM模块，输出6* 81个token，2)视觉token裁剪，TokenLearner模块，通过注意力机制过滤token，输出6* 8个token，减少计算负担，3)动作预测使用decoder-only的transformer模块，输出预测离散化的动作token，4）离散化动作表示，对动作detoken，采用分箱处理，输出每个关节的离散量。
+   * 推理：推理速度可以达到3Hz，使用TPUv4芯片，主要的加速技术包括视觉token压缩和FiLM使用efficientNet的变体
+   * 任务定义：论文采用自然语言指令为准，指标格式为动词+名称的形式，如打开抽屉
+   * 实验证明：RT-1的未见任务的泛化性强，异构数据的吸收能力强和长程任务的有效性。
+3. RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control
+   * 架构上：提出了VLA的架构，就是在PaLI-X的VLM的基础上，增加了动作的标记位。
+   * 动作标记化：论文将机器人的连续动作空间映射到了模型的文本标记空间（Vocabulary）。做法是1）动作空间：包括 6 自由度的末端执行器位姿（x, y, z, roll, pitch, yaw）、夹持器的张合程度以及一个表示任务是否终止的特殊命令。2）离散化：将这些连续的数值划分为 256 个等分区间（bins），每个区间对应一个整数。3）映射：将这 256 个区间与语言模型中已有的文本 Token 关联。4）输出格式：模型输出的是一串代表动作的 Token，例如 1 128 91 241 5 101 127，然后通过反标记化（De-tokenization）转换为机器人硬件可执行的物理指令。
+   * 训练策略：采用了共微调（co-fine-tuning)的方式，在每一个训练批次中，同时包含互联网规模的视觉问答数据和机器人抓取轨迹数据。这样做可以防止模型在学习机器人技能时出现“灾难性遗忘”。
+5. RT-H
+6. RT-X
+
+# [Physical Intelligence系列]
+1. pi0：
+2. 
    
