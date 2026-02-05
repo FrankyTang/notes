@@ -88,4 +88,12 @@ some knowledges that are importent or  easy to forget, including not only AI.
 # [Physical Intelligence系列]
 1. pi0：
 2. 
-   
+
+
+# [claude code使用技巧]
+1.命令行启动：claude
+2.定制claude的工作环境：/init ,会创建claude.md文件，里面可以写一些架构的东西，如编程语音
+3.构建高效的提示工程：（坏的）添加一个日历组件，（好的）查看现有组件如何集成到仪表盘的，使用react创建一个日期选择器组件
+4.使用思考引导词："think","think hard", "think harder", "ultrathink"
+5.利用并行处理：使用子代理，提示词写法，你是一个bug修复的子代理，你需要完成如下的功能，修改当前运行的bug。
+6.标准工作流程：1）探索阶段，如读取整个文件，理解里面的代码逻辑；2）规划阶段，要求claude制订解决问题的计划，使用think;3）编码阶段，让claude编码实现；4）提交阶段：让claude提交结果并创建git commit
