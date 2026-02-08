@@ -1,0 +1,8 @@
+# 记录VLM/VLA的推理加速相关
+
+# qwen3 vs qwen2.5
+1. 对比qwen3-vl-2b 和 qwen2.5-vl-3b，由于参数量的减少，qwen3-vl-2b要快1.5X，在fp16精度和h800的环境下
+* qwen2.5-vl-3b: 480个vit token的情况下，vit耗时11.5ms,0.02ms/token， prefill 阶段41.02ms(550个token),0.07ms/toekn, decoding阶段3.79ms/token
+* qwen3-vl-2b: 480个vit token的情况下，vit耗时7.6ms,0.015ms/token， prefill 阶段27.11ms(550个token),0.04ms/toekn, decoding阶段2.77ms/token
+
+2.
