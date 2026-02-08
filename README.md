@@ -97,3 +97,6 @@ some knowledges that are importent or  easy to forget, including not only AI.
 4.使用思考引导词："think","think hard", "think harder", "ultrathink"
 5.利用并行处理：使用子代理，提示词写法，你是一个bug修复的子代理，你需要完成如下的功能，修改当前运行的bug。
 6.标准工作流程：1）探索阶段，如读取整个文件，理解里面的代码逻辑；2）规划阶段，要求claude制订解决问题的计划，使用think;3）编码阶段，让claude编码实现；4）提交阶段：让claude提交结果并创建git commit
+
+# [训练加速]
+1. 
