@@ -1,6 +1,12 @@
 # notes
 some knowledges that are importent or  easy to forget, including not only AI.
 
+# VLM 和 VLA
+我的理解，直接用VLM对动作和状态进行文本化，会导致失真，所以才提出用真实动作和状态的VLA，然后通过特定的tokenizer和detokenizer进行转换，这样处理会提高模型的可解释性和模型效果上限。VLA相比VLM的优点如下(参考RT1，RT2)：
+1. 信息保真度，从“失真描述”到“保真编码”
+2. 模型理解效率，从“学习语法”到“学习物理”
+3. 效果上限，从“正确描述”到“成功执行”
+
 # 视觉token裁剪
 1. 小鹏-fastDriveVLA
 2. 腾讯-VScan https://hub.baai.ac.cn/view/47057
