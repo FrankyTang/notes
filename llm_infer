@@ -6,11 +6,20 @@
 * qwen3-vl-2b: 480个vit token的情况下，vit耗时7.6ms,0.015ms/token， prefill 阶段27.11ms(550个token),0.04ms/toekn, decoding阶段2.77ms/token
 
 2. 量化相关
-* vit阶段，FP8的精度相对FP16的精度，时延7.61ms->6.99ms(提速1.09X），分析发现只有gemm跑在FP8,attention使用flash_attantion库，跑在FP16.
-* prefill阶段，相比FP16,FP8的时延没有变化，int4量化的时延出现恶化(相比FP16恶化1.11x)，原因是prefill阶段的瓶颈在于计算
-* decode阶段，相比FP16，FP8的时延2.77ms/token->2.3ms/token(提速1.2X),int4量化的时延2.77ms/token->2ms/token(提速1.39X),原因是decode阶段
-  属于访存瓶颈，访存的收益大于反量化的恶化。
+* FP8量化
+** vit阶段，FP8的精度相对FP16的精度，时延7.61ms->6.99ms(提速1.09X），分析发现只有gemm跑在FP8,attention使用flash_attantion库，跑在FP16.
+** prefill阶段，相比FP16,FP8的时延没有变化，原因是prefill阶段的瓶颈在于计算
+** decode阶段，FP8的时延2.77ms/token->2.3ms/token(提速1.2X)
+
+* INT4量化(W4A16)
+** prefill阶段，int4量化的时延出现恶化(相比FP16恶化1.11x)，原因是prefill阶段的瓶颈在于计算
+** decode阶段，int4量化的时延2.77ms/token->2ms/token(提速1.39X),原因是decode阶段属于访存瓶颈，访存的收益大于反量化的恶化。
+
+* INT8量化(W8A8)
+** 
+
 * 显存变化，FP16+FP16的峰值显存是7.5G,FP8+FP8的峰值显存是5.8G,FP8+INT4的峰值显存是5.5G
+
 
 3. 投机采样
 
