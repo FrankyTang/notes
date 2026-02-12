@@ -122,11 +122,11 @@ some knowledges that are importent or  easy to forget, including not only AI.
      ** 表现：GPU利用率周期波动、通信操作耗时占比高、增加batch_size的加速不理想
      ** 原因：数据并行通信、模型并行中流水线的气泡、zero3的特殊瓶颈（参数切片导致通信增加）
      ** 解决：通信计算重叠、梯度累加、通信压缩（FP16/INT8通信）、nccl算法选择（ring vs Tree)
-  * 内存瓶颈
+   * 内存瓶颈
     ** 表现：GPU内存使用接近100%，频繁CUDAOOM、大量时间花费在内存分配/释放
     ** 原因：激活值内存爆炸、内存碎片化、cpu-gpu数据传输
     ** 解决：梯度检测点、模型并行、激活值分片、zero优化、offload
-  * I/O瓶颈
+   * I/O瓶颈
     ** 表现：GPU利用率低且波动大、数据加载进程CPU使用率高、增加GPU时吞吐几乎不变
     ** 原因：设备硬件限制（cpu核数）、预处理复杂、数据格式低效、网络带宽
     ** 解决：预处理cuda化、将数据缓存到本地、使用TFRecord格式、多进程数据加载
