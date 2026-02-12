@@ -105,4 +105,11 @@ some knowledges that are importent or  easy to forget, including not only AI.
 6.标准工作流程：1）探索阶段，如读取整个文件，理解里面的代码逻辑；2）规划阶段，要求claude制订解决问题的计划，使用think;3）编码阶段，让claude编码实现；4）提交阶段：让claude提交结果并创建git commit
 
 # [训练加速]
-1. 
+1. 框架对比
+   * deepspeed：适配pytorch代码和huggingface代码，代码改动小，开启zero1/2/3和offload等功能
+   * megatron-lm：针对tranformer模型，适用大规模参数，nvidia开发，进行了大量并行，包括tp/pp/cp
+   * fsdp：纯pytorch代码，全切片数据并行，使用中等规模的模型
+2. zero等级区分，解决显存不足的问题
+   * zero1: 优化器状态切分
+   * zero2：优化器状态+梯度切分
+   * zero3：优化器状态+梯度切分+模型参数切分
