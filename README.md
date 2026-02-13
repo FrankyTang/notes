@@ -130,3 +130,6 @@ some knowledges that are importent or  easy to forget, including not only AI.
     ** 表现：GPU利用率低且波动大、数据加载进程CPU使用率高、增加GPU时吞吐几乎不变
     ** 原因：设备硬件限制（cpu核数）、预处理复杂、数据格式低效、网络带宽
     ** 解决：预处理cuda化、将数据缓存到本地、使用TFRecord格式、多进程数据加载
+4. 实战例子
+   * 蒸馏模型加速： 自定义prefetch类，把teacher模型传入，从而实现prefecth内部计算teacher的forward和student的forward进行并行计算，从而提高计算效率
+   * 参数微调SFT模型：采用训推理一体的方式，把参数不更新的模块使用tensorrt进行推理，更新参数的部分使用pytorch进行推理和反向传播。
